@@ -62,9 +62,9 @@ router.put('/update/:id',(req, res, next) => {
 router.get('/getuser', (req, res) => {
     db.bhautik.find((err, msg) => {
         if (!err) {
-            res.status(200).json({
-                 msg
-            })
+            res.status(200).json(
+                 message:msg
+            )
         } else {
             res.status(500).json({
                 message: err
