@@ -60,7 +60,7 @@ router.put('/update/:id',(req, res, next) => {
 // get user
 
 router.get('/getuser', (req, res) => {
-    db.bhautik.find({}, (err, msg) => {
+    db.bhautik.find((err, msg) => {
         if (!err) {
             res.status(200).json({
                  msg
