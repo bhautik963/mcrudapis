@@ -63,7 +63,7 @@ router.get('/getuser', (req, res) => {
     db.bhautik.find((err, msg) => {
         if (!err) {
             res.status(200).json(
-                 message:msg
+                msg
             )
         } else {
             res.status(500).json({
