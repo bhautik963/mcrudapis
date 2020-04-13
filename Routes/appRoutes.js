@@ -59,18 +59,19 @@ router.put('/update/:id',(req, res, next) => {
 
 // get user
 
-router.get("/getuser",function(req,res){  
-    db.bhautik.find(function(err,data){  
-              if(err){  
-                  res.send(err);  
-              }  
-              else{               
-                  res.json(data);
-		      consol.log(data);
-                  }  
-          });  
-  });
-
+router.get('/getuser', (req, res) => {
+    db.bhautik.find({}, (err, msg) => {
+        if (!err) {
+            res.status(200).json({
+                message: msg
+            })
+        } else {
+            res.status(500).json({
+                message: err
+            });
+        }
+    });
+})
 
   //delete user
   router.delete('/delete/:id',(req, res, next) => {
