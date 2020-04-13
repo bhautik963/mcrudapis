@@ -10,7 +10,7 @@ router.get('/', function (req, res) {
     res.send("hello from server 1234 !!!!");
 });
 
-router.post('/addstud', function (req, res) {
+/*router.post('/addstud', function (req, res) {
     console.log(req.body);
     db.bhautik.save({
         Enrollment_No: req.body.Enrollmentno,
@@ -25,11 +25,36 @@ router.post('/addstud', function (req, res) {
     res.status(200).send({
         "message": "data received"
     });
+});*/
+
+router.post('/addstud', (req, res) => {
+
+    db.bhautik.save({
+        Enrollment_No: req.body.Enrollmentno,
+        Name: req.body.Name,
+        Age:req.body.age,
+        Birth_Date:req.body.Bod,
+        Department:req.body.dept,
+        Branch:req.body.branch,
+        Result:req.body.result,
+        Fees:req.body.fees
+    }, (err, msg) => {
+        if (!err) {
+            res.status(200).json(
+                msg
+            );
+        } else {
+            res.status(500).json({
+                message: err
+            });
+        }
+    });
+
 });
 
 // Get single employee
 router.get('/read/:id',(req, res) => {
-    db.bhautik.findOne({_id: mongoose.ObjectId(req.params.id)}, (error, data) => {
+    db.bhautik.findOne({_id: ObjectId(req.params.id)}, (error, data) => {
       if (error) {
         return next(error)
       } else {
@@ -42,8 +67,8 @@ router.get('/read/:id',(req, res) => {
   })
 
    // Update employee
-router.put('/update/:id',(req, res, next) => {
-    db.bhautik.update({_id: mongoose.ObjectId(req.params.id)}, {
+//router.put('/update/:id',(req, res, next) => {
+  /*  db.bhautik.update({_id: mongoose.ObjectId(req.params.id)}, {
       $set: req.body
     }, (error, data) => {
       if (error) {
@@ -54,7 +79,23 @@ router.put('/update/:id',(req, res, next) => {
         console.log('Data updated successfully')
       }
     })
-  })
+  })*/
+
+
+router.put('/update/:id',(req,res)=>{
+    
+    db.bhautik.update({_id:ObjectId(req.params.id)},{$set:req.body},(err,msg)=>{
+        if (!err) {
+            res.status(200).json(
+              msg
+            );
+        } else {
+            res.status(500).json({
+                message: err
+            });
+        }
+    })
+})
 
 
 // get user
@@ -73,18 +114,16 @@ router.get('/getuser', (req, res) => {
     });
 })
 
-  //delete user
-  router.delete('/delete/:id',(req, res, next) => {
-    db.bhautik.remove({_id: mongoose.ObjectId(req.params.id)}, (error, data) => {
-      if (error) {
-        return next(error);
-      } else {
-        res.status(200).json({
-          msg: "dele"
-        })
-      }
-    })
-  })
+  router.delete('/delete/:id', (req, res, next) => {
+    console.log("delete");
+      db.bhautik.remove({ _id: ObjectId(req.params.id) }, (err, msg) => {
+        if (err) {
+            res.status(500).json(err);
+        } else {
+            res.status(200).json( msg );
+        }
+    });
+});
 
 
 
